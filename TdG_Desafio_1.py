@@ -25,7 +25,9 @@ weight = 0;
 
 #CRIAÇÃO DO GRAFO
 G = nx.Graph();
+Y = nx.Graph();
 pos = nx.spring_layout(G)
+pos2 = nx.spring_layout(Y)
 
 #red_edges = [('C','D'),('D','A')]
 #edge_colors = ['black' if not edge in red_edges else 'red' for edge in G.edges()]
@@ -80,7 +82,7 @@ while(menu != 0):
             print("Vértices cadastradas :",vertices.keys());
     if(menu == 5):
         os.system("cls")
-        plt.title("Teoria dos Grafos")
+        plt.title("Inteligência Artificial - 1")
         plt.axis('off')
         pos = nx.circular_layout(G)
         edge_labels = {(u,v): d['weight'] for u,v,d in G.edges(data=True)}
@@ -141,17 +143,29 @@ while(menu != 0):
             
  
     if(menu == 10):
-        Y = nx.Graph()
         f = tkFileDialog.askopenfile(mode="rb");
-        os.system("cls")   
+        os.system("cls") 
+        plt.title("Inteligência Artificial - 1")
+        plt.axis('off')
+ 
         nx.read_weighted_edgelist(f,create_using=Y,nodetype=str,encoding="utf-8")
-        nx.draw(Y)
-        plt.show()
+        pos = nx.spring_layout(Y)
+        
+        edge_labels = {(u,v): d['weight'] for u,v,d in Y.edges(data=True)}
+        nx.draw_networkx_nodes(Y,pos,node_size=700)
+        nx.draw_networkx_edges(Y,pos)
+        nx.draw_networkx_labels(Y,pos)
+        nx.draw_networkx_edge_labels(Y,pos,edge_labels=edge_labels)
+        plt.show();
+        pylab.show();
+        
     if(menu == 11):
         os.system("cls")
+        print("Algoritmo A*\n")
         inicial = input("Digite o começo :")
         target = input("Digite o final :")
-        print(list(nx.astar_path(G,inicial,target,heuristic=None,weight="weight")))
+
+        print("Resultado : ",list(nx.astar_path(Y,inicial,target,heuristic=None)),"\n")
     if(menu == 12):
         nx.draw_networkx_nodes(G,pos,node_size=700)
         nx.draw_networkx_edges(G,pos)
@@ -160,6 +174,6 @@ while(menu != 0):
         perg = input("Imagem : ")
         plt.savefig(f"{perg}.png")
             
-    if menu < 0 or menu > 11 :
+    if menu < 0 or menu >= 12 :
         os.system("cls")
         print("Valor inválido\n ")
