@@ -31,7 +31,7 @@ pos = nx.spring_layout(G)
 #edge_colors = ['black' if not edge in red_edges else 'red' for edge in G.edges()]
 
 while(menu != 0):
-    menu = int(input("Menu \n 1)Cadastrar vértice \n 2)Cadastrar ligação \n 3)Mostrar conexões \n 4)Mostrar vértices \n 5)Desenhar grafo \n 6)Verificar Grafo Euleriano \n 7)Mostrar percurso Euleriano \n 8)Remover Vértice \n 9)Grafo salva em Arquivo.txt\n 10)Arquivo.txt transforma em Grafo\n 0)Sair \n Opção :"));
+    menu = int(input("Menu \n 1)Cadastrar vértice \n 2)Cadastrar ligação \n 3)Mostrar conexões \n 4)Mostrar vértices \n 5)Desenhar grafo \n 6)Verificar Grafo Euleriano \n 7)Mostrar percurso Euleriano \n 8)Remover Vértice \n 9)Grafo salva em Arquivo.txt\n 10)Arquivo.txt transforma em Grafo\n 11)Busca Cega - Algoritmo A*\n 12)Imagem\n 0)Sair \n Opção :"));
     if(menu == 1):
         os.system('cls');
         cadastrar_vertice = input("Digite o nome da vértice : ");
@@ -133,31 +133,33 @@ while(menu != 0):
             os.system("cls")
             print("Nenhuma conexão foi cadastrada até o momento. \n")
         elif(len(lista_conexoes) >= 1):
-            f = tkFileDialog.askdirectory();
-            nx.write_edgelist(G,f)
-            nx.draw_networkx_nodes(G,pos,node_size=700)
-            nx.draw_networkx_edges(G,pos)
-            nx.draw_networkx_labels(G,pos)
-            nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)       
-            perg = input("Imagem : ")
-            plt.savefig(f"{perg}.png")
+            f = tkFileDialog.askopenfile(mode="wb")
+            nx.write_weighted_edgelist(G,f)
             os.system("cls")
             print("Arquivo gravado com sucesso")
+            f.close();
+            
+ 
     if(menu == 10):
-        f = tkFileDialog.askdirectory();
-        if (os.path.exists(f) == True):
-            os.system("cls")
-            Y = nx.DiGraph()
-            nx.read_edgelist(f,create_using=Y,nodetype=int)
-            print(nx.info(Y))
-            nx.draw(Y)
-            plt.show()
-        if (os.path.exists(f) == False):
-            arq = open(f, "a+")
-            nx.read_edgelist(f,create_using=nx.DiGraph(),nodetype=int)
-            print(nx.info(G))
-            nx.draw(G)
-            plt.show()
-    if menu < 0 or menu > 10 :
+        Y = nx.Graph()
+        f = tkFileDialog.askopenfile(mode="rb");
+        os.system("cls")   
+        nx.read_weighted_edgelist(f,create_using=Y,nodetype=str,encoding="utf-8")
+        nx.draw(Y)
+        plt.show()
+    if(menu == 11):
+        os.system("cls")
+        inicial = input("Digite o começo :")
+        target = input("Digite o final :")
+        print(list(nx.astar_path(G,inicial,target,heuristic=None,weight="weight")))
+    if(menu == 12):
+        nx.draw_networkx_nodes(G,pos,node_size=700)
+        nx.draw_networkx_edges(G,pos)
+        nx.draw_networkx_labels(G,pos)
+        nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)       
+        perg = input("Imagem : ")
+        plt.savefig(f"{perg}.png")
+            
+    if menu < 0 or menu > 11 :
         os.system("cls")
         print("Valor inválido\n ")

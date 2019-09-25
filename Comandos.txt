@@ -1,5 +1,2 @@
-#DEPENDÊNCIAS PARA FUNCIONAR CORRETAMENTE
-
-#python -mpip install -U networkx==2.2
-#python -mpip install -U matplotlib
-#python -mpip install -U numpy
+a c 5.0
+a b 10.0
