@@ -162,10 +162,11 @@ while(menu != 0):
     if(menu == 11):
         os.system("cls")
         print("Algoritmo A*\n")
-        inicial = input("Digite o começo :")
+        source = input("Digite o começo :")
         target = input("Digite o final :")
 
-        print("Resultado : ",list(nx.astar_path(Y,inicial,target,heuristic=None)),"\n")
+        print("Resultado (Algoritmo A*) : ",list(nx.astar_path(Y,source,target,heuristic=None)),"\n")
+        print("Resultado (Algoritmo Dijkstra) : ",list(nx.dijkstra_path(Y,source,target,weight="weight")),"\n")
     if(menu == 12):
         nx.draw_networkx_nodes(G,pos,node_size=700)
         nx.draw_networkx_edges(G,pos)
@@ -174,6 +175,6 @@ while(menu != 0):
         perg = input("Imagem : ")
         plt.savefig(f"{perg}.png")
             
-    if menu < 0 or menu >= 12 :
+    if menu < 0 or menu >= 13 :
         os.system("cls")
         print("Valor inválido\n ")
