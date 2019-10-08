@@ -8,10 +8,12 @@ import pylab
 from tkinter import filedialog as tkFileDialog
  
 #DEPENDÊNCIAS PARA FUNCIONAR CORRETAMENTE
-#pip install networkx==2.1
+#pip install networkx==2.2
 #python -mpip install -U pip
 #python -mpip install -U matplotlib
+
 cores = ['blue','red','yellow','green']
+
 menu = 1;
 lista_vertices = [];
 lista_conexoes = [];
@@ -36,11 +38,12 @@ while(menu != 0):
     menu = int(input("Menu \n 1)Cadastrar vértice \n 2)Cadastrar ligação \n 3)Mostrar conexões \n 4)Mostrar vértices \n 5)Desenhar grafo \n 6)Verificar Grafo Euleriano \n 7)Mostrar percurso Euleriano \n 8)Remover Vértice \n 9)Grafo salva em Arquivo.txt\n 10)Arquivo.txt transforma em Grafo\n 11)Busca Cega - Algoritmo A*\n 12)Imagem\n 0)Sair \n Opção :"));
     if(menu == 1):
         os.system('cls');
-        cadastrar_vertice = input("Digite o nome da vértice : ");
-        vertices2 = {cadastrar_vertice:""};
+        cadastrar_nodo = input("Digite o nome da vértice : ");
+        valor_nodo = float(input("Digite o valor do nodo : "))
+        vertices2 = {cadastrar_nodo:valor_nodo};
         vertices.update(vertices2);
         lista_vertices.append(vertices);
-        G.add_node(cadastrar_vertice);
+        G.add_node(vertices2[cadastrar_nodo]);
     if(menu == 2):
         os.system("cls");
         if(len(vertices)>= 2):
@@ -79,25 +82,33 @@ while(menu != 0):
     if(menu == 4):
         os.system("cls");
         for x in range(1):
-            print("Vértices cadastradas :",vertices.keys());
+            print("Vértices cadastradas :",vertices.items());
     if(menu == 5):
-        os.system("cls")
-        plt.title("Inteligência Artificial - 1")
-        plt.axis('off')
-        pos = nx.circular_layout(G)
-        edge_labels = {(u,v): d['weight'] for u,v,d in G.edges(data=True)}
-        #nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)
-        #nx.draw(G,pos,node_size=1500,edge_color=edge_colors,edge_weight=True,with_labels=True)
-        #nx.draw(G,with_labels = True,edge_weight = True)
-        #plt.draw();
-        #plt.show()
-        #plt.figure()
-        nx.draw_networkx_nodes(G,pos,node_size=700)
-        nx.draw_networkx_edges(G,pos)
-        nx.draw_networkx_labels(G,pos)
-        nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)
-        plt.show();
-        pylab.show();
+        graph = input("Qual grafo : ")
+        if graph == "G":
+            os.system("cls")
+            plt.title("Inteligência Artificial - 1")
+            plt.axis('off')
+            pos = nx.spring_layout(G)
+            edge_labels = {(u,v): d['weight'] for u,v,d in G.edges(data=True)}
+            nx.draw_networkx_nodes(G,pos,node_size=700)
+            nx.draw_networkx_edges(G,pos)
+            nx.draw_networkx_labels(G,pos)
+            nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)
+            plt.show();
+            pylab.show();
+        elif graph == "Y":
+            os.system("cls")
+            plt.title("Inteligência Artificial - 1")
+            plt.axis('off')
+            pos = nx.spring_layout(Y)
+            edge_labels = {(u,v): d['weight'] for u,v,d in Y.edges(data=True)}
+            nx.draw_networkx_nodes(Y,pos,node_size=700)
+            nx.draw_networkx_edges(Y,pos)
+            nx.draw_networkx_labels(Y,pos)
+            nx.draw_networkx_edge_labels(Y,pos,edge_labels=edge_labels)
+            plt.show();
+            pylab.show();
     if(menu == 6):
         if(len(vertices) != 0):
             os.system("cls")
@@ -162,11 +173,12 @@ while(menu != 0):
     if(menu == 11):
         os.system("cls")
         print("Algoritmo A*\n")
-        source = input("Digite o começo :")
-        target = input("Digite o final :")
+        source = input("Digite o começo :").upper()
+        target = input("Digite o final :").upper()
 
         print("Resultado (Algoritmo A*) : ",list(nx.astar_path(Y,source,target,heuristic=None)),"\n")
         print("Resultado (Algoritmo Dijkstra) : ",list(nx.dijkstra_path(Y,source,target,weight="weight")),"\n")
+        print("Caminho (Algoritmo Dijkstra) : ",str(nx.dijkstra_predecessor_and_distance(Y,source)).replace(",","\n").replace("("," ").replace("{","\n ").replace("}","\n").replace(")",""))
     if(menu == 12):
         nx.draw_networkx_nodes(G,pos,node_size=700)
         nx.draw_networkx_edges(G,pos)
