@@ -79,7 +79,7 @@ while(menu != 0):
                 print("Conexões cadastradas :",lista_conexoes[y]);
         else:
             print("Nenhuma conexão foi cadastrada até o momento. \n")
-    if(menu == 4):
+    if(menu == 4):  
         os.system("cls");
         for x in range(1):
             print("Vértices cadastradas :",vertices.items());
