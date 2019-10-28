@@ -171,6 +171,7 @@ while(menu != 0):
         pylab.show();
         
     if(menu == 11):
+        T = nx.minimum_spanning_tree(Y,weight="weight")
         os.system("cls")
         print("Algoritmo A*\n")
         source = input("Digite o começo :").upper()
@@ -179,6 +180,7 @@ while(menu != 0):
         print("Resultado (Algoritmo A*) : ",list(nx.astar_path(Y,source,target,heuristic=None)),"\n")
         print("Resultado (Algoritmo Dijkstra) : ",list(nx.dijkstra_path(Y,source,target,weight="weight")),"\n")
         print("Caminho (Algoritmo Dijkstra) : ",str(nx.dijkstra_predecessor_and_distance(Y,source)).replace(",","\n").replace("("," ").replace("{","\n ").replace("}","\n").replace(")",""))
+        print("Algoritmo Kruskall : ",sorted(T.edges(data=True)))
     if(menu == 12):
         nx.draw_networkx_nodes(G,pos,node_size=700)
         nx.draw_networkx_edges(G,pos)
@@ -187,6 +189,6 @@ while(menu != 0):
         perg = input("Imagem : ")
         plt.savefig(f"{perg}.png")
             
-    if menu < 0 or menu >= 13 :
+    if menu < 0 or menu >= 14 :
         os.system("cls")
         print("Valor inválido\n ")
