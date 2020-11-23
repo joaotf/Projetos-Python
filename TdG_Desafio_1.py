@@ -17,7 +17,7 @@ from tkinter.filedialog import askopenfilename
 # Admin installing
 # python -mpip install -U pip
 # python -mpip install -U 
- 
+
 cores = ['blue','red','yellow','green']
 
 menu = 1;
@@ -213,7 +213,8 @@ while(menu != 0):
         nx.draw(x);
         plt.show();
         pylab.show();
-    if(menu == 14):
+    if(menu == 14): # Para visualizar o resultado da matrix de incidência no Linux, no VScode
+                    # utilize o SVG preview de extensão!
         array = [];
         vertices = int(input("Entre com a quantidade de vértices: "))
         arestas = int(input("Entre com a quantidade de arestas: "))
