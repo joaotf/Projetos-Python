@@ -1,15 +1,22 @@
 import os
 import networkx as nx
-from networkx import Graph
 import matplotlib.pyplot as plt
-import random
 import numpy as np 
 import pylab
+import igraph
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
  
 #DEPENDÊNCIAS PARA FUNCIONAR CORRETAMENTE
-#pip install networkx==2.2
-#python -mpip install -U pip
-#python -mpip install -U matplotlib
+# pip install networkx
+# pip install matplotlib
+# pip install python3-tk 
+# pip install spicy
+# pip install python-igraph
+
+# Admin installing
+# python -mpip install -U pip
+# python -mpip install -U 
  
 cores = ['blue','red','yellow','green']
 
@@ -34,7 +41,7 @@ pos2 = nx.spring_layout(Y)
 #edge_colors = ['black' if not edge in red_edges else 'red' for edge in G.edges()]
 
 while(menu != 0):
-    menu = int(input("Menu \n 1)Cadastrar vértice \n 2)Cadastrar ligação \n 3)Mostrar conexões \n 4)Mostrar vértices \n 5)Desenhar grafo \n 6)Verificar Grafo Euleriano \n 7)Mostrar percurso Euleriano \n 8)Remover Vértice \n 9)Grafo salva em Arquivo.txt\n 10)Arquivo.txt transforma em Grafo\n 11)Busca Cega - Algoritmo A*\n 12)Imagem\n 0)Sair \n Opção :"));
+    menu = int(input("Menu \n 1)Cadastrar vértice \n 2)Cadastrar ligação \n 3)Mostrar conexões \n 4)Mostrar vértices \n 5)Desenhar grafo \n 6)Verificar Grafo Euleriano \n 7)Mostrar percurso Euleriano \n 8)Remover Vértice \n 9)Grafo salva em Arquivo.txt\n 10)Arquivo.txt transforma em Grafo\n 11)Busca Cega - Algoritmo A*\n 12)Imagem\n 13)Matrix de Adjacência\n 14) Matriz de Incidência \n 0)Sair \n Opção :"));
     if(menu == 1):
         os.system('clear');
         cadastrar_nodo = input("Digite o nome da vértice : ");
@@ -83,10 +90,10 @@ while(menu != 0):
         for x in range(1):
             print("Vértices cadastradas :",vertices.items());
     if(menu == 5):
-        graph = input("Qual grafo : ")
+        graph = input("Grafos disponíveis: [G,Y]\nQual grafo : ")
         if graph == "G":
             os.system("clear")
-            plt.title("Inteligência Artificial - 1")
+            plt.title("Teoria dos Grafos")
             plt.axis('off')
             pos = nx.spring_layout(G)
             edge_labels = {(u,v): d['weight'] for u,v,d in G.edges(data=True)}
@@ -98,7 +105,7 @@ while(menu != 0):
             pylab.show();
         elif graph == "Y":
             os.system("clear")
-            plt.title("Inteligência Artificial - 1")
+            plt.title("Teoria dos Grafos")
             plt.axis('off')
             pos = nx.spring_layout(Y)
             edge_labels = {(u,v): d['weight'] for u,v,d in Y.edges(data=True)}
@@ -153,9 +160,9 @@ while(menu != 0):
             
  
     if(menu == 10):
-        f = input("Digite o nome do arquivo --> ")
-        os.system("clear") 
-        plt.title("Inteligência Artificial - 1")
+        Tk().withdraw();
+        f = askopenfilename();
+        plt.title("Teoria dos Grafos")
         plt.axis('off')
  
         nx.read_weighted_edgelist(f,create_using=Y,nodetype=str,encoding="utf-8")
@@ -189,7 +196,40 @@ while(menu != 0):
         nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)       
         perg = input("Imagem : ")
         plt.savefig(f"{perg}.png")
-            
-    if menu < 0 or menu >= 14 :
+    if(menu == 13):
+        array = [];
+        vertices = int(input("Entre com a quantidade de vértices: "))
+        arestas = int(input("Entre com a quantidade de arestas: "))
+
+        for x in range(vertices):
+            valores = input(f"Entre com os valores da linha {x+1}: ").split()
+            for b in range(len(valores)):
+                valores[b] = int(valores[b]);
+            array.append(valores)
+        
+        b = np.matrixlib.matrix(array);
+
+        x = nx.from_numpy_matrix(b);
+        nx.draw(x);
+        plt.show();
+        pylab.show();
+    if(menu == 14):
+        array = [];
+        vertices = int(input("Entre com a quantidade de vértices: "))
+        arestas = int(input("Entre com a quantidade de arestas: "))
+
+        for x in range(vertices):
+            valores = input(f"Entre com os valores da linha {x+1}: ").split()
+            for b in range(len(valores)):
+                valores[b] = int(valores[b]);
+            array.append(valores)
+        
+        print(array);
+        matrix = igraph.Graph.Incidence(array);
+
+        igraph.plot(matrix);
+    
+
+    if menu < 0 or menu >= 17 :
         os.system("clear")
         print("Valor inválido\n ")
