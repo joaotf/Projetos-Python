@@ -41,7 +41,7 @@ pos2 = nx.spring_layout(Y)
 #edge_colors = ['black' if not edge in red_edges else 'red' for edge in G.edges()]
 
 while(menu != 0):
-    menu = int(input("Menu \n 1)Cadastrar vértice \n 2)Cadastrar ligação \n 3)Mostrar conexões \n 4)Mostrar vértices \n 5)Desenhar grafo \n 6)Verificar Grafo Euleriano \n 7)Mostrar percurso Euleriano \n 8)Remover Vértice \n 9)Grafo salva em Arquivo.txt\n 10)Arquivo.txt transforma em Grafo\n 11)Busca Cega - Algoritmo A*\n 12)Imagem\n 13)Matrix de Adjacência\n 14) Matriz de Incidência \n 0)Sair \n Opção :"));
+    menu = int(input("Menu \n 1)Cadastrar vértice \n 2)Cadastrar ligação \n 3)Mostrar conexões \n 4)Mostrar vértices \n 5)Desenhar grafo \n 6)Verificar Grafo Euleriano \n 7)Mostrar percurso Euleriano \n 8)Remover Vértice \n 9)Grafo salva em Arquivo.txt\n 10)Arquivo.txt transforma em Grafo\n 11)Busca Cega - Algoritmo A*\n 12)Imagem\n 13)Matrix de Adjacência\n 14)Matriz de Incidência \n 0)Sair \n Opção :"));
     if(menu == 1):
         os.system('clear');
         cadastrar_nodo = input("Digite o nome da vértice : ");
@@ -223,12 +223,9 @@ while(menu != 0):
             for b in range(len(valores)):
                 valores[b] = int(valores[b]);
             array.append(valores)
-        
-        print(array);
-        matrix = igraph.Graph.Incidence(array);
 
-        igraph.plot(matrix);
-    
+        matrix = igraph.Graph.Incidence(array);
+        igraph.Graph.write_svg(matrix,'teste.svg', width=1000, height=1000)
 
     if menu < 0 or menu >= 17 :
         os.system("clear")
